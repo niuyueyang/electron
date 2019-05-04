@@ -1,6 +1,23 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow,Menu } from 'electron'
 const electron = require('electron')
 const ipc = electron.ipcMain
+
+//设置菜单
+let dockMenu = Menu.buildFromTemplate([
+  {
+    label: '文件', click: function () {
+      console.log('点击事件');
+    }
+  },
+  {
+    label: '编辑', submenu: [
+      {label: '保存'},
+      {label: '另存'}
+    ]
+  },
+  {label: '帮助'}
+]);
+Menu.setApplicationMenu(dockMenu);
 
 //登录窗口最小化
 ipc.on('window-min',function(){
@@ -17,6 +34,8 @@ ipc.on('window-max',function(){
 ipc.on('window-close',function(){
   mainWindow.close();
 })
+
+
 
 /**
  * Set `__static` path to static files in production
